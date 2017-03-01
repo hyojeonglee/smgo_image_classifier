@@ -29,20 +29,30 @@ from datasets import dataset_utils
 
 slim = tf.contrib.slim
 
-_FILE_PATTERN = 'smgo_%s_*.tfrecord'
+_FILE_PATTERN = 'mnist_eo_%s_*.tfrecord'
 
-# whole 40998 pictures > whole 52766 pics
-# SPLITS_TO_SIZES = {'train': 36998, 'validation': 4000}
-SPLITS_TO_SIZES = {'train': 47766, 'validation': 5000}
+# for default
+# SPLITS_TO_SIZES = {'train': 60000, 'test': 10000}
 
-# for validation_test.py
-# SPLITS_TO_SIZES = {'train': 41260, 'validation': 1}
+# for validation_mnist_eo.py
+# testimages = 10
+# odd = 33001
+# even = 31981
 
-_NUM_CLASSES = 5
+# for 0 and Others
+# 0 : 6796
+# others : 54971
+
+# default
+SPLITS_TO_SIZES = {'train': 60000, 'test': 10000}
+
+# SPLITS_TO_SIZES = {'train': 60000, 'test': 6796}
+
+_NUM_CLASSES = 11
 
 _ITEMS_TO_DESCRIPTIONS = {
-    'image': 'A color image of varying size.',
-    'label': 'A single integer between 0 and 4',
+    'image': 'A number image of 28 size.',
+    'label': 'A single integer between 0 and 10',
 }
 
 

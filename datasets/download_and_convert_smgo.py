@@ -41,13 +41,13 @@ from datasets import dataset_utils
 
 # The number of images in the validation set.
 # 수정할 부분!
-_NUM_VALIDATION = 4000
+_NUM_VALIDATION = 5000
 
 # Seed for repeatability.
-# _RANDOM_SEED = 0
+_RANDOM_SEED = 0
 
 # The number of shards per dataset split.
-_NUM_SHARDS = 4
+_NUM_SHARDS = 5
 
 
 class ImageReader(object):
@@ -194,8 +194,8 @@ def run(dataset_dir):
 
   # 사진 섞는 것 주석 처리!
   # Divide into train and test:
-  # random.seed(_RANDOM_SEED)
-  # random.shuffle(photo_filenames)
+  random.seed(_RANDOM_SEED)
+  random.shuffle(photo_filenames)
   training_filenames = photo_filenames[_NUM_VALIDATION:]
   validation_filenames = photo_filenames[:_NUM_VALIDATION]
 
@@ -210,5 +210,5 @@ def run(dataset_dir):
   dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
 
   # _clean_up_temporary_files(dataset_dir)
-  print('\nFinished converting the Flowers dataset!')
+  print('\nFinished converting the dataset!')
 

@@ -24,6 +24,7 @@ from datasets import imagenet
 from datasets import mnist
 from datasets import smgo
 from datasets import mnist_eo
+from datasets import mnist_11
 
 datasets_map = {
     'cifar10': cifar10,
@@ -32,6 +33,7 @@ datasets_map = {
     'mnist': mnist,
     'smgo': smgo,
     'mnist_eo': mnist_eo,
+    'mnist_11': mnist_11,
 }
 
 

@@ -34,11 +34,15 @@ slim = tf.contrib.slim
 # odd = 33001
 # even = 31981
 
-_NUM_VALIDATION = 10
+# for 0 and Others
+# 0 : 6796
+# others : 54971
+
+_NUM_VALIDATION = 6796
 
 _RANDOM_SEED = 0
 
-_NUM_SHARDS = 10
+_NUM_SHARDS = 6796
 
 class ImageReader(object):
 
@@ -71,7 +75,7 @@ def _get_filenames_and_classes(dataset_dir):
     subdirectories, representing class names.
   """
   mnist_root = os.path.join(dataset_dir, 'images')
-  # mnist_root = dataset_dir
+  mnist_root = dataset_dir
   photo_filenames = []
   print ('get file name and classes')
   for filename in os.listdir(mnist_root):
@@ -150,6 +154,7 @@ def convert():
 
   dataset_dir = '/home/sm/PycharmProjects/smproject/mnist_eo/testimages'
   # dataset_dir = '/home/sm/PycharmProjects/smproject/mnist_eo/dataset_eo/images/even'
+  dataset_dir = '/home/sm/PycharmProjects/smproject/mnist_range_0andOthers/dataset_0andOthers/images/0'
   photo_filenames = _get_filenames_and_classes(dataset_dir)
   validation_filenames = photo_filenames
 
@@ -181,8 +186,15 @@ tf.app.flags.DEFINE_integer(
 tf.app.flags.DEFINE_string(
     'master', '', 'The address of the TensorFlow master to use.')
 
+# CheckPoint Path for even vs odd
+# tf.app.flags.DEFINE_string(
+#     'checkpoint_path', '/home/sm/PycharmProjects/smproject/mnist_eo/train_eo',
+#     'The directory where the model was written to or an absolute path to a '
+#     'checkpoint file.')
+
+# CheckPoint Path for 0 and others
 tf.app.flags.DEFINE_string(
-    'checkpoint_path', '/home/sm/PycharmProjects/smproject/mnist_eo/train_eo',
+    'checkpoint_path', '/home/sm/PycharmProjects/smproject/mnist_range_0andOthers/train_0andOthers',
     'The directory where the model was written to or an absolute path to a '
     'checkpoint file.')
 
@@ -200,7 +212,7 @@ tf.app.flags.DEFINE_string(
     'dataset_split_name', 'test', 'The name of the train/test split.')
 
 tf.app.flags.DEFINE_string(
-    'dataset_dir','/home/sm/PycharmProjects/smproject/mnist_eo/testimages', 'The directory where the dataset files are stored.')
+    'dataset_dir','/home/sm/PycharmProjects/smproject/mnist_range_0andOthers/dataset_0andOthers/images/0', 'The directory where the dataset files are stored.')
 
 tf.app.flags.DEFINE_integer(
     'labels_offset', 0,
@@ -235,7 +247,7 @@ def test():
     # Select the dataset #
     ######################
     dataset = dataset_factory.get_dataset(
-      'mnist_eo', 'test', '/home/sm/PycharmProjects/smproject/mnist_eo/testimages')
+      'mnist_eo', 'test', '/home/sm/PycharmProjects/smproject/mnist_range_0andOthers/dataset_0andOthers/images/0')
 
     ####################
     # Select the model #
@@ -298,9 +310,17 @@ def test():
         test2.append(1)
 
     # Define the metrics:
+
+    # for even and odd
+    # names_to_values, names_to_updates = slim.metrics.aggregate_metric_map({
+    #     'even': slim.metrics.streaming_accuracy(predictions, test1),
+    #     'odd': slim.metrics.streaming_accuracy(predictions, test2),
+    # })
+
+    # for 0 and others
     names_to_values, names_to_updates = slim.metrics.aggregate_metric_map({
-        'even': slim.metrics.streaming_accuracy(predictions, test1),
-        'odd': slim.metrics.streaming_accuracy(predictions, test2),
+        '0': slim.metrics.streaming_accuracy(predictions, test1),
+        'others': slim.metrics.streaming_accuracy(predictions, test2),
     })
 
     # # Print Result

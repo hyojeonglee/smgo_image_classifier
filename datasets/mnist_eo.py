@@ -35,14 +35,18 @@ _FILE_PATTERN = 'mnist_eo_%s_*.tfrecord'
 # SPLITS_TO_SIZES = {'train': 60000, 'test': 10000}
 
 # for validation_mnist_eo.py
-# testimages = 6
+# testimages = 10
 # odd = 33001
 # even = 31981
 
-# default
-# SPLITS_TO_SIZES = {'train': 60000, 'test': 10000}
+# for 0 and Others
+# 0 : 6796
+# others : 54971
 
-SPLITS_TO_SIZES = {'train': 60000, 'test': 10}
+# default
+SPLITS_TO_SIZES = {'train': 60000, 'test': 10000}
+
+# SPLITS_TO_SIZES = {'train': 60000, 'test': 6796}
 
 _NUM_CLASSES = 2
 

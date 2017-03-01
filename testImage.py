@@ -1,17 +1,3 @@
-# Copyright 2016 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
 
 from __future__ import absolute_import
 from __future__ import division
@@ -20,26 +6,46 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import shutil
 import tensorflow as tf
 import os
-import validation_test
+import smgo_image_classifier
 
 slim = tf.contrib.slim
 
+dataset_dir = '/home/sm/PycharmProjects/smproject/smgo/testimages'
+
+classes = ['_faces', '_fashion', '_food', '_nature', '_pets', '_etc']
+
+MIN_PROBABIL = 0.5
+
 def main():
-    dataset_dir = '/home/sm/PycharmProjects/smproject/smgo/testimages'
-    photo_filenames = _get_filenames_and_classes(dataset_dir)
-    for i in range(photo_filenames.__len__()) :
+    dirs = make_dir()
+    photo_filenames = _get_filenames(dataset_dir)
+
+    for i in range(photo_filenames.__len__()):
         print('####################################################################', i+1)
         temp = photo_filenames[i]
         base = os.path.basename(temp)
-        print('>> #File name :', base, ' ')
-        validation_test.convert(photo_filenames[i])
+        print('>> File name :', base)
+        index, probabilities = smgo_image_classifier.classify_image(photo_filenames[i])
 
-def _get_filenames_and_classes(dataset_dir):
+        if (probabilities[index] < MIN_PROBABIL):
+            shutil.copy(photo_filenames[i], dirs[classes.__len__()-1])
+        else:
+            shutil.copy(photo_filenames[i], dirs[index])
+
+def make_dir():
+    dirname = []
+    for i in range(classes.__len__()):
+        dirname.append(os.path.join(dataset_dir, classes[i]))
+        if not os.path.isdir(dirname[i]):
+            os.mkdir(dirname[i])
+    return dirname
+
+def _get_filenames(dataset_dir):
   smgo_root = os.path.join(dataset_dir, 'images')
   photo_filenames = []
-  print ('get file name and classes')
   for filename in os.listdir(smgo_root):
     path = os.path.join(smgo_root, filename)
     photo_filenames.append(path)

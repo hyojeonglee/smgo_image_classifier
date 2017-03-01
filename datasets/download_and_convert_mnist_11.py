@@ -47,7 +47,7 @@ _NUM_VALIDATION = 10000
 _RANDOM_SEED = 0
 
 # The number of shards per dataset split.
-_NUM_SHARDS = 2
+_NUM_SHARDS = 11
 
 
 class ImageReader(object):
