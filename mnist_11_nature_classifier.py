@@ -2,17 +2,17 @@
 import os
 import tensorflow as tf
 
-from nets import alexnet
-from preprocessing import vgg_preprocessing
+from nets import lenet
+from preprocessing import lenet_preprocessing
 
-checkpoints_dir = '/home/sm/PycharmProjects/smproject/smgo/train_alexnet_5_label'
+checkpoints_dir = '/home/sm/PycharmProjects/smproject/mnist_11/train_11'
 
 slim = tf.contrib.slim
 
 # We need default size of image for a particular network.
-image_size = alexnet.alexnet_v2.default_image_size
+image_size = lenet.lenet.default_image_size
 
-names = ['faces', 'fashion', 'food', 'nature', 'pets']
+names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'nature_png']
 
 def classify_image(filepath):
     with tf.Graph().as_default():
@@ -22,13 +22,13 @@ def classify_image(filepath):
         image_string = image.read()
 
         # Decode string into matrix with intensity values
-        image = tf.image.decode_jpeg(image_string, channels=3)
+        image = tf.image.decode_png(image_string, channels=3)
 
         # Resize the input image, preserving the aspect ratio
         # and make a central crop of the resulted image.
         # The crop will be of the size of the default image size of
         # the network.
-        processed_image = vgg_preprocessing.preprocess_image(image,
+        processed_image = lenet_preprocessing.preprocess_image(image,
                                                              image_size,
                                                              image_size,
                                                              is_training=False)
@@ -42,9 +42,9 @@ def classify_image(filepath):
         # the batch norm parameters. arg_scope is a very convenient
         # feature of slim library -- you can define default
         # parameters for layers -- like stride, padding etc.
-        with slim.arg_scope(alexnet.alexnet_v2_arg_scope()):
-            logits, _ = alexnet.alexnet_v2(processed_images,
-                                   num_classes=5,
+        with slim.arg_scope(lenet.lenet_arg_scope()):
+            logits, _ = lenet.lenet(processed_images,
+                                   num_classes=11,
                                    is_training=False)
 
         # In order to get probabilities we apply softmax on the output.
@@ -54,8 +54,8 @@ def classify_image(filepath):
         # from the checkpoint file that you downloaded.
         # We will run it in session later.
         init_fn = slim.assign_from_checkpoint_fn(
-            os.path.join(checkpoints_dir, 'model.ckpt-100000'),
-            slim.get_model_variables('alexnet_v2'))
+            os.path.join(checkpoints_dir, 'model.ckpt-10000'),
+            slim.get_model_variables(None))
 
         with tf.Session() as sess:
             # Load weights
@@ -71,7 +71,7 @@ def classify_image(filepath):
             sorted_inds = [i[0] for i in sorted(enumerate(-probabilities),
                                                 key=lambda x: x[1])]
 
-        for i in range(5):
+        for i in range(11):
             index = sorted_inds[i]
             print('Probability %0.2f => [%s]' % (probabilities[index], names[index]))
 
