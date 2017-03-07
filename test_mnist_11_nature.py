@@ -1,14 +1,15 @@
+from __future__ import absolute_import
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import division
+from __future__ import print_function
+from __future__ import print_function
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+import os
 
 import tensorflow as tf
-import os
-import mnist_11_nature_classifier
+
+from tester_mnist_11 import mnist_11_nature_classifier
 
 slim = tf.contrib.slim
 

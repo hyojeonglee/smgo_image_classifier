@@ -1,15 +1,16 @@
-
+from __future__ import absolute_import
 from __future__ import absolute_import
 from __future__ import division
-from __future__ import print_function
-from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+from __future__ import print_function
 
-import shutil
-import tensorflow as tf
 import os
-import smgo_image_classifier
+import shutil
+
+import tensorflow as tf
+
+from tester_smgo_5_label import smgo_image_classifier
 
 slim = tf.contrib.slim
 
