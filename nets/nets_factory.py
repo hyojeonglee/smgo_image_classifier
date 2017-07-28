@@ -17,12 +17,12 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
+
 import functools
 
 import tensorflow as tf
 
-from nets import alexnet
-from nets import cifarnet
+from nets import cifarnet, alexnet
 from nets import inception
 from nets import lenet
 from nets import overfeat

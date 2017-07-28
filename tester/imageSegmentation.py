@@ -1,11 +1,11 @@
 #matplotlib inline
 
-from matplotlib import pyplot as plt
+import os
+import urllib.request
 
 import numpy as np
-import os
 import tensorflow as tf
-import urllib.request
+from matplotlib import pyplot as plt
 
 from datasets import imagenet
 from nets import vgg
@@ -103,8 +103,6 @@ with tf.Graph().as_default():
         print('Probability %0.2f => [%s]' % (probabilities[index], names[index + 1]))
 
     res = slim.get_model_variables()
-
-from preprocessing import vgg_preprocessing
 
 from preprocessing.vgg_preprocessing import (_mean_image_subtraction,
                                              _R_MEAN, _G_MEAN, _B_MEAN)

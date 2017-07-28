@@ -5,14 +5,14 @@ import tensorflow as tf
 from nets import alexnet
 from preprocessing import vgg_preprocessing
 
-checkpoints_dir = '/home/sm/PycharmProjects/smproject/smgo/train_alexnet_5_label'
+checkpoints_dir = '/home/sm/PycharmProjects/smproject/smgo/train_alexnet_with_garbage'
 
 slim = tf.contrib.slim
 
 # We need default size of image for a particular network.
 image_size = alexnet.alexnet_v2.default_image_size
 
-names = ['faces', 'fashion', 'food', 'nature', 'pets']
+names = ['faces', 'fashion', 'food', 'garbage', 'nature', 'pets']
 
 def classify_image(filepath):
     with tf.Graph().as_default():
@@ -44,7 +44,7 @@ def classify_image(filepath):
         # parameters for layers -- like stride, padding etc.
         with slim.arg_scope(alexnet.alexnet_v2_arg_scope()):
             logits, _ = alexnet.alexnet_v2(processed_images,
-                                           num_classes=5,
+                                           num_classes=6,
                                            is_training=False)
 
         # In order to get probabilities we apply softmax on the output.
@@ -54,7 +54,7 @@ def classify_image(filepath):
         # from the checkpoint file that you downloaded.
         # We will run it in session later.
         init_fn = slim.assign_from_checkpoint_fn(
-            os.path.join(checkpoints_dir, 'model.ckpt-500000'),
+            os.path.join(checkpoints_dir, 'model.ckpt-100000'),
             slim.get_model_variables('alexnet_v2'))
 
         with tf.Session() as sess:
@@ -71,7 +71,7 @@ def classify_image(filepath):
             sorted_inds = [i[0] for i in sorted(enumerate(-probabilities),
                                                 key=lambda x: x[1])]
 
-        for i in range(5):
+        for i in range(6):
             index = sorted_inds[i]
             print('Probability %0.2f => [%s]' % (probabilities[index], names[index]))
 

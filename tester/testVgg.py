@@ -1,11 +1,11 @@
 #matplotlib inline
 
-from matplotlib import pyplot as plt
+import os
+import urllib.request
 
 import numpy as np
-import os
 import tensorflow as tf
-import urllib.request
+from matplotlib import pyplot as plt
 
 from datasets import imagenet
 from nets import vgg

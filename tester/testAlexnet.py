@@ -1,10 +1,10 @@
 #matplotlib inline
 
-from matplotlib import pyplot as plt
+import os
 
 import numpy as np
-import os
 import tensorflow as tf
+from matplotlib import pyplot as plt
 
 from nets import alexnet
 from preprocessing import vgg_preprocessing
@@ -47,8 +47,8 @@ with tf.Graph().as_default():
     # parameters for layers -- like stride, padding etc.
     with slim.arg_scope(alexnet.alexnet_v2_arg_scope()):
         logits, _ = alexnet.alexnet_v2(processed_images,
-                               num_classes=4,
-                               is_training=False)
+                                       num_classes=4,
+                                       is_training=False)
 
     # In order to get probabilities we apply softmax on the output.
     probabilities = tf.nn.softmax(logits)

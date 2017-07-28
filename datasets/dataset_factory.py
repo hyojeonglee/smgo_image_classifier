@@ -23,6 +23,7 @@ from datasets import flowers
 from datasets import imagenet
 from datasets import mnist
 from datasets import smgo
+from datasets import smgo6
 from datasets import mnist_eo
 from datasets import mnist_11
 
@@ -32,6 +33,7 @@ datasets_map = {
     'imagenet': imagenet,
     'mnist': mnist,
     'smgo': smgo,
+    'smgo6': smgo6,
     'mnist_eo': mnist_eo,
     'mnist_11': mnist_11,
 }
